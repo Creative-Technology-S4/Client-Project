@@ -1,15 +1,21 @@
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const { Configuration, OpenAIApi } = require('openai')
 const configuration = new Configuration({
-	// apiKey: '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'
+	apiKey: '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'
 })
 const openai = new OpenAIApi(configuration)
 
 function App() {
 	const [image, setImage] = useState()
 	const { transcript, listening, resetTranscript } = useSpeechRecognition()
+
+	useEffect(() => {
+		if (transcript) {
+			generateImage()
+		}
+	}, [listening])
 
 	const generateImage = async () => {
 		const response = await openai.createImage({
@@ -23,7 +29,7 @@ function App() {
 	}
 
 	return (
-		<div className="App">
+		<div>
 			<div>
 				<p>Microphone: {listening ? 'on' : 'off'}</p>
 				<button onClick={SpeechRecognition.startListening}>Start</button>
@@ -31,7 +37,7 @@ function App() {
 				<button onClick={resetTranscript}>Reset</button>
 				<p>{transcript}</p>
 			</div>
-			<button onClick={generateImage}>Generate</button>
+			{/* <button onClick={generateImage}>Generate</button> */}
 			{image ? <img src={image} /> : null}
 		</div>
 	)
