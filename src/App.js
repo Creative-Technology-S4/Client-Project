@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 const { Configuration, OpenAIApi } = require('openai')
 const configuration = new Configuration({
-	apiKey: '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'
+	apiKey: window.env.OPENAI_KEY
 })
 const openai = new OpenAIApi(configuration)
 
