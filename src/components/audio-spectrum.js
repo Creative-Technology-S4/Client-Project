@@ -1,16 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 
-const map = (x, a, b, c, d) => {
-	const mapResult = ((x - a) * (d - c)) / (b - a) + c
-	return Math.max(Math.min(mapResult, Math.max(a, b)), Math.min(a, b))
-}
+const map = (x, a, b, c, d) => Math.max(Math.min(((x - a) * (d - c)) / (b - a) + c, Math.max(a, b)), Math.min(a, b))
 
-const AudioSpectrum = ({ doAnimation }) => {
+const AudioSpectrum = () => {
 	const analyserCanvas = useRef(null)
 
 	useEffect(() => {
 		animateMicInput()
-	}, [doAnimation])
+	}, [])
 
 	const animateMicInput = async () => {
 		if (navigator.mediaDevices.getUserMedia !== null) {
@@ -22,7 +19,7 @@ const AudioSpectrum = ({ doAnimation }) => {
 
 				const audioCtx = new AudioContext()
 				const analyser = audioCtx.createAnalyser()
-				analyser.fftSize = 1024 // audio res
+				analyser.fftSize = 512 // audio res
 				// analyser.maxDecibels = 0
 				// analyser.minDecibels = -20
 				// analyser.smoothingTimeConstant = 0.95
@@ -31,12 +28,11 @@ const AudioSpectrum = ({ doAnimation }) => {
 				const ctx = analyserCanvas.current.getContext('2d')
 
 				const draw = radius => {
-					ctx.clearRect(0, 0, analyserCanvas.current.width, analyserCanvas.current.height)
-
-					if (doAnimation) {
+					if (analyserCanvas.current) {
+						ctx.clearRect(0, 0, analyserCanvas.current.width, analyserCanvas.current.height)
 						ctx.beginPath()
-						ctx.lineWidth = 10
-						ctx.strokeStyle = 'red' //color of candle/bar
+						ctx.lineWidth = map(radius, 20, 50, 10, 50)
+						ctx.strokeStyle = 'white' //color of candle/bar
 						ctx.arc(100, 100, radius, 0, 2 * Math.PI)
 						ctx.stroke()
 					}
@@ -56,7 +52,7 @@ const AudioSpectrum = ({ doAnimation }) => {
 		}
 	}
 
-	return <canvas ref={analyserCanvas} />
+	return <canvas className="centered" ref={analyserCanvas} width="200" height="200" />
 }
 
 export default AudioSpectrum
