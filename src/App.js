@@ -13,34 +13,43 @@ function App() {
 	const { transcript, listening, resetTranscript } = useSpeechRecognition()
 
 	useEffect(() => {
-		if (transcript) {
+		if (transcript && !listening) {
 			generateImage()
 		}
 	}, [listening])
 
 	const generateImage = async () => {
+		console.log(transcript)
 		const response = await openai.createImage({
 			prompt: transcript,
 			n: 1,
-			size: '256x256'
+			size: '512x512'
 		})
 		const url = response.data.data[0].url
 		console.log(url)
 		setImage(url)
 	}
 
+	const onReset = () => {
+		SpeechRecognition.stopListening()
+		resetTranscript()
+		SpeechRecognition.startListening()
+	}
+
+	if (listening) {
+		return <AudioSpectrum />
+	}
 	return (
 		<div>
-			<div>
-				<p>Microphone: {listening ? 'on' : 'off'}</p>
-				<button onClick={SpeechRecognition.startListening}>Start</button>
-				<button onClick={SpeechRecognition.stopListening}>Stop</button>
-				<button onClick={resetTranscript}>Reset</button>
-				<p>{transcript}</p>
-			</div>
-			{/* <button onClick={generateImage}>Generate</button> */}
-			{image ? <img src={image} /> : null}
-			<AudioSpectrum doAnimation={true} />
+			<p className="transcript">{transcript}</p>
+			{image ? (
+				<img src={image} className="centered" />
+			) : (
+				transcript ?? <p style={{ color: 'white' }}>loading...</p>
+			)}
+			<button className="btn start-btn" onClick={onReset}>
+				{transcript ? 'Restart' : 'Start'}
+			</button>
 		</div>
 	)
 }
