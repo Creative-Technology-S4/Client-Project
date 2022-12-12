@@ -4,8 +4,57 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
+	background: rgb(8, 4, 17);
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.btn {
+	cursor: pointer;
+	color: black;
+	background: white;
+	border-radius: 25px;
+	width: 140px;
+	height: 50px;
+	border-style: solid;
+	border-color: white;
+	border-width: 2px;
+	font-family: 'Ubuntu';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+.btn:hover {
+	transition: all ease-in-out 150ms;
+	background: transparent;
+	color: white;
+}
+
+.start-btn {
+	position: absolute;
+	bottom: 10%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.transcript {
+	font-family: 'Ubuntu';
+	font-weight: 500;
+	font-size: 32px;
+	text-align: center;
+	width: 100%;
+	color: white;
+	position: absolute;
+	top: 10%;
+	margin: 0;
+}
+
+.centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
