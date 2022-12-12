@@ -1,5 +1,6 @@
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { useEffect, useState } from 'react'
+import AudioSpectrum from './components/audio-spectrum'
 
 const { Configuration, OpenAIApi } = require('openai')
 const configuration = new Configuration({
@@ -39,6 +40,7 @@ function App() {
 			</div>
 			{/* <button onClick={generateImage}>Generate</button> */}
 			{image ? <img src={image} /> : null}
+			<AudioSpectrum doAnimation={true} />
 		</div>
 	)
 }
