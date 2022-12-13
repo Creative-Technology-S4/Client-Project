@@ -1,12 +1,9 @@
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { useEffect, useState } from 'react'
 import AudioSpectrum from './components/audio-spectrum'
+import { OpenAIApi } from 'openai'
 
-const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({
-	apiKey: window.env.OPENAI_KEY
-})
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAIApi({ apiKey: window.env.OPENAI_KEY })
 
 function App() {
 	const [image, setImage] = useState()
