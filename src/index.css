@@ -58,3 +58,9 @@ code {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+.image {
+	height: 50%;
+	width: auto;
+	aspect-ratio: 1;
+}

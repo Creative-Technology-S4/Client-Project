@@ -1,9 +1,9 @@
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { useEffect, useState } from 'react'
 import AudioSpectrum from './components/audio-spectrum'
-import { OpenAIApi } from 'openai'
+import { Configuration, OpenAIApi } from 'openai'
 
-const openai = new OpenAIApi({ apiKey: window.env.OPENAI_KEY })
+const openai = new OpenAIApi(new Configuration({ apiKey: window.env.OPENAI_KEY }))
 
 function App() {
 	const [image, setImage] = useState()
@@ -40,7 +40,7 @@ function App() {
 		<div>
 			<p className="transcript">{transcript}</p>
 			{image ? (
-				<img src={image} className="centered" />
+				<img src={image} className="centered image" />
 			) : (
 				transcript ?? <p style={{ color: 'white' }}>loading...</p>
 			)}
