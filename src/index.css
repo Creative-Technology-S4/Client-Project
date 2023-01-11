@@ -60,6 +60,7 @@ code {
 }
 
 .image-stack {
+    color: white;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -68,4 +69,18 @@ code {
 	justify-content: space-around;
 	height: 50%;
 	width: 100%;
+}
+
+.error {
+    color: red;
+}
+
+.image-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
