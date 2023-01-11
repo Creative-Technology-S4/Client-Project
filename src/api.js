@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const OPENAI_API_KEY = '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'
-const THESAURUS_API_KEY = 'uzjOVKNnDQ/5NZMMT0VAAg==ge0KcRxrybl4yPDl'
+const OPENAI_API_KEY = ''
+const THESAURUS_API_KEY = ''
 
 export const generateImage = async prompt => {
 	const options = { prompt, size: '512x512', n: 1 }
