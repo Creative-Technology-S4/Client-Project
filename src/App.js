@@ -1,8 +1,8 @@
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { useEffect, useState } from 'react'
+import { getSynonymAndAntonym } from './api'
 import AudioSpectrum from './components/audio-spectrum'
 import ImageView from './components/image-view'
-import { getSynonymAndAntonym } from './api'
 
 function shuffle(array) {
 	for (var i = array.length - 1; i > 0; i--) {
