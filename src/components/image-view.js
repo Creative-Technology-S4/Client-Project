@@ -14,13 +14,9 @@ const ImageView = ({ prompt }) => {
 	if (error) {
 		return <div className="image-view error">{error.message ?? error}</div>
 	} else if (prompt) {
-		return (
-			<div className="image-view">
-				<p>{prompt}</p>
-				{image ? <img src={image} /> : <p>Loading...</p>}
-			</div>
-		)
+		return <div className="image-view">{image ? <img src={image} /> : <p>Loading...</p>}</div>
 	}
+	return <div className="image-view">No prompt</div>
 }
 
 export default ImageView
