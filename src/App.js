@@ -4,28 +4,33 @@ import AudioSpectrum from './components/audio-spectrum'
 import ImageView from './components/image-view'
 import { getSynonymAndAntonym } from './api'
 
+function shuffle(array) {
+	for (var i = array.length - 1; i > 0; i--) {
+		var j = Math.floor(Math.random() * (i + 1))
+		var temp = array[i]
+		array[i] = array[j]
+		array[j] = temp
+	}
+	return array
+}
+
 function App() {
 	const { transcript, listening, resetTranscript } = useSpeechRecognition()
 
-	const [expectedPrompt, setExpectedPrompt] = useState()
-	const [alternativePrompt, setAlternativePrompt] = useState()
-	const [disruptivePrompt, setDisruptivePrompt] = useState()
-
-	const [expectedImages, setExpectedImages] = useState([])
-	const [alternativeImages, setAlternativeImages] = useState([])
-	const [disruptiveImages, setDisruptiveImages] = useState([])
+	const [prompts, setPrompts] = useState([])
 
 	useEffect(() => {
+		// when the speech recognition lib is not listening anymore
+		// and theres is some input, generate new images
 		if (transcript && !listening) {
 			generateImages(transcript).catch(console.error)
 		}
 	}, [listening])
 
 	const generateImages = async prompt => {
-		setExpectedPrompt(null)
-		setAlternativePrompt(null)
-		setDisruptivePrompt(null)
+		setPrompts([]) // rest image prompts
 
+		// generate similar & opposite prompts
 		const similarPrompt = []
 		const oppositePrompt = []
 		for (const word of prompt.split(' ')) {
@@ -34,13 +39,8 @@ function App() {
 			oppositePrompt.push(words[1] ?? word)
 		}
 
-		setExpectedPrompt(prompt)
-		setAlternativePrompt(similarPrompt.join(' '))
-		setDisruptivePrompt(oppositePrompt.join(' '))
-
-		setExpectedImages(arr => [...arr, prompt])
-		setAlternativeImages(arr => [...arr, prompt])
-		setDisruptiveImages(arr => [...arr, prompt])
+		// shuffle prompts
+		setPrompts(shuffle([prompt, similarPrompt.join(' '), oppositePrompt.join(' ')]))
 	}
 
 	const onReset = () => {
@@ -55,10 +55,11 @@ function App() {
 	return (
 		<div>
 			<p className="transcript">{transcript}</p>
+			{transcript ?? <p className="transcript">{transcript}</p>}
 			<div className="image-stack">
-				<ImageView prompt={expectedPrompt} />
-				<ImageView prompt={alternativePrompt} />
-				<ImageView prompt={disruptivePrompt} />
+				<ImageView prompt={prompts[0]} />
+				<ImageView prompt={prompts[1]} />
+				<ImageView prompt={prompts[2]} />
 			</div>
 			<button className="btn start-btn" onClick={onReset}>
 				{transcript ? 'Restart' : 'Start'}
