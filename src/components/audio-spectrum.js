@@ -33,7 +33,7 @@ const AudioSpectrum = () => {
 						ctx.beginPath()
 						ctx.lineWidth = map(radius, 20, 50, 10, 50)
 						ctx.strokeStyle = 'white' //color of candle/bar
-						ctx.arc(100, 100, radius, 0, 2 * Math.PI)
+						ctx.arc(400, 400, radius, 0, 2 * Math.PI)
 						ctx.stroke()
 					}
 				}
@@ -52,7 +52,7 @@ const AudioSpectrum = () => {
 		}
 	}
 
-	return <canvas className="centered" ref={analyserCanvas} width="200" height="200" />
+	return <canvas ref={analyserCanvas} width="800" height="800" />
 }
 
 export default AudioSpectrum

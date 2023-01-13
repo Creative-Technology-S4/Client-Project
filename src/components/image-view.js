@@ -8,15 +8,31 @@ const ImageView = ({ prompt }) => {
 	useEffect(() => {
 		if (prompt) {
 			generateImage(prompt).then(setImage).catch(setError)
+		} else {
+			setImage(null)
+			setError(null)
 		}
 	}, [prompt])
 
 	if (error) {
-		return <div className="image-view error">{error.message ?? error}</div>
-	} else if (prompt) {
-		return <div className="image-view">{image ? <img src={image} /> : <p>Loading...</p>}</div>
+		return (
+			<div className="image-view" style={{ color: 'red' }}>
+				{/* {error.message ?? error} */}
+				Prompt provided contained unsafe words
+			</div>
+		)
 	}
-	return <div className="image-view">No prompt</div>
+	if (prompt) {
+		if (image) {
+			return (
+				<div className="image-view">
+					<img src={image} />
+				</div>
+			)
+		}
+		return <div className="image-view inputs">Processing...</div>
+	}
+	return <div className="image-view inputs">No prompt</div>
 }
 
 export default ImageView

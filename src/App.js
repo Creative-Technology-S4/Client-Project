@@ -24,8 +24,10 @@ function App() {
 		// and theres is some input, generate new images
 		if (transcript && !listening) {
 			generateImages(transcript).catch(console.error)
+		} else if (!transcript) {
+			setPrompts([])
 		}
-	}, [listening])
+	}, [listening, transcript])
 
 	const generateImages = async prompt => {
 		setPrompts([]) // rest image prompts
@@ -43,27 +45,43 @@ function App() {
 		setPrompts(shuffle([prompt, similarPrompt.join(' '), oppositePrompt.join(' ')]))
 	}
 
-	const onReset = () => {
-		SpeechRecognition.stopListening()
-		resetTranscript()
-		SpeechRecognition.startListening()
-	}
-
-	if (listening) {
-		return <AudioSpectrum />
-	}
 	return (
-		<div>
-			<p className="transcript">{transcript}</p>
-			{transcript ?? <p className="transcript">{transcript}</p>}
-			<div className="image-stack">
-				<ImageView prompt={prompts[0]} />
-				<ImageView prompt={prompts[1]} />
-				<ImageView prompt={prompts[2]} />
+		<div className="content">
+			<div className="controls">
+				{/* <div className="inputs"> */}
+				{/* <div className="input">Prompt for image 1: {prompts[0] ?? '...'}</div> */}
+				{/* <div className="input">Prompt for image 2: {prompts[1] ?? '...'}</div> */}
+				{/* <div className="input">Prompt for image 3: {prompts[2] ?? '...'}</div> */}
+				{/* </div> */}
+				<div className="btns">
+					<button className="btn" onClick={SpeechRecognition.startListening}>
+						Start
+					</button>
+					<button className="btn" onClick={SpeechRecognition.stopListening}>
+						Stop
+					</button>
+					<button className="btn" onClick={resetTranscript}>
+						Clear
+					</button>
+					<button className="btn" onClick={() => setPrompts(['example', 'example', 'example'])}>
+						Debug
+					</button>
+				</div>
 			</div>
-			<button className="btn start-btn" onClick={onReset}>
-				{transcript ? 'Restart' : 'Start'}
-			</button>
+			<div>
+				<div className="transcript">{transcript ?? 'No Prompt'}</div>
+				<div className="images">
+					{listening ? (
+						<AudioSpectrum />
+					) : (
+						<>
+							<ImageView prompt={prompts[0]} />
+							<ImageView prompt={prompts[1]} />
+							<ImageView prompt={prompts[2]} />
+						</>
+					)}
+				</div>
+			</div>
 		</div>
 	)
 }
