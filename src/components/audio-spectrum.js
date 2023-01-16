@@ -34,18 +34,17 @@ const AudioSpectrum = () => {
 						ctx.fillStyle = 'white'
 
 						ctx.beginPath()
-						ctx.arc(510, 260, map(radius, 20, 50, 10, 50), 0, 2 * Math.PI)
+						ctx.arc(210, 90, map(radius, 10, 50, 10, 30), 0, 2 * Math.PI)
 						ctx.fill()
+
+						ctx.beginPath()
+						ctx.lineWidth = 30
+						ctx.arc(150, 150, 45, 0, 2 * Math.PI)
 						ctx.stroke()
 
 						ctx.beginPath()
-						ctx.lineWidth = 55
-						ctx.arc(400, 400, 90, 0, 2 * Math.PI)
-						ctx.stroke()
-
-						ctx.beginPath()
-						ctx.lineWidth = 35
-						ctx.arc(400, 600, 40, 0, 2 * Math.PI)
+						ctx.lineWidth = 15
+						ctx.arc(150, 250, 20, 0, 2 * Math.PI)
 						ctx.stroke()
 					}
 				}
@@ -64,7 +63,7 @@ const AudioSpectrum = () => {
 		}
 	}
 
-	return <canvas ref={analyserCanvas} width="800" height="800" />
+	return <canvas ref={analyserCanvas} width="300" height="300" />
 }
 
 export default AudioSpectrum
