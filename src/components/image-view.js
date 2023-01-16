@@ -15,7 +15,9 @@ const ImageView = ({ prompt }) => {
 	}, [prompt])
 
 	if (prompt) {
-		return <div className="image-view inputs">{image ? <img src={image} /> : 'Processing...'}</div>
+		return (
+			<div className="image-view inputs">{image ? <img className="image" src={image} /> : 'Processing...'}</div>
+		)
 	}
 	return <div className="image-view inputs">No prompt</div>
 }
