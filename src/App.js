@@ -48,11 +48,11 @@ function App() {
 	return (
 		<div className="content">
 			<div className="controls">
-				{/* <div className="inputs"> */}
-				{/* <div className="input">Prompt for image 1: {prompts[0] ?? '...'}</div> */}
-				{/* <div className="input">Prompt for image 2: {prompts[1] ?? '...'}</div> */}
-				{/* <div className="input">Prompt for image 3: {prompts[2] ?? '...'}</div> */}
-				{/* </div> */}
+				<div className="inputs">
+					<div className="input">Prompt for image 1: {prompts[0] ?? '...'}</div>
+					<div className="input">Prompt for image 2: {prompts[1] ?? '...'}</div>
+					<div className="input">Prompt for image 3: {prompts[2] ?? '...'}</div>
+				</div>
 				<div className="btns">
 					<button className="btn" onClick={SpeechRecognition.startListening}>
 						Start
@@ -62,9 +62,6 @@ function App() {
 					</button>
 					<button className="btn" onClick={resetTranscript}>
 						Clear
-					</button>
-					<button className="btn" onClick={() => setPrompts(['example', 'example', 'example'])}>
-						Debug
 					</button>
 				</div>
 			</div>
