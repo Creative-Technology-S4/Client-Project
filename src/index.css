@@ -91,6 +91,8 @@ html {
     justify-content: center;
     align-items: center;
     color: white;
+    border: 10px solid;
+    border-radius: 10px;
 }
 
 .image {
