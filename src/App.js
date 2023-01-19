@@ -18,6 +18,7 @@ function App() {
 	const { transcript, listening, resetTranscript } = useSpeechRecognition()
 
 	const [prompts, setPrompts] = useState([])
+	const [reveal, setReveal] = useState(false)
 
 	useEffect(() => {
 		// when the speech recognition lib is not listening anymore
@@ -26,11 +27,18 @@ function App() {
 			generateImages(transcript).catch(console.error)
 		} else if (!transcript) {
 			setPrompts([])
+			setReveal(false)
 		}
 	}, [listening, transcript])
 
+	const clear = () => {
+		setPrompts([])
+		setReveal(false)
+		resetTranscript()
+	}
+
 	const generateImages = async prompt => {
-		setPrompts([]) // rest image prompts
+		clear() // clear prompts
 
 		// generate similar & opposite prompts
 		const similarPrompt = []
@@ -41,17 +49,32 @@ function App() {
 			oppositePrompt.push(words[1] ?? word)
 		}
 
+		const data = [
+			{
+				text: prompt,
+				color: 'blue'
+			},
+			{
+				text: similarPrompt.join(' '),
+				color: 'green'
+			},
+			{
+				text: oppositePrompt.join(' '),
+				color: 'red'
+			}
+		]
+
 		// shuffle prompts
-		setPrompts(shuffle([prompt, similarPrompt.join(' '), oppositePrompt.join(' ')]))
+		setPrompts(shuffle(data))
 	}
 
 	return (
 		<div className="content">
 			<div className="controls">
 				<div className="inputs">
-					<div className="input">Prompt for image 1: {prompts[0] ?? '...'}</div>
-					<div className="input">Prompt for image 2: {prompts[1] ?? '...'}</div>
-					<div className="input">Prompt for image 3: {prompts[2] ?? '...'}</div>
+					<div className="input">Prompt for image 1: {prompts[0]?.text ?? '...'}</div>
+					<div className="input">Prompt for image 2: {prompts[1]?.text ?? '...'}</div>
+					<div className="input">Prompt for image 3: {prompts[2]?.text ?? '...'}</div>
 				</div>
 				<div className="btns">
 					<button className="btn" onClick={SpeechRecognition.startListening}>
@@ -60,7 +83,10 @@ function App() {
 					<button className="btn" onClick={SpeechRecognition.stopListening}>
 						Stop
 					</button>
-					<button className="btn" onClick={resetTranscript}>
+					<button className="btn" onClick={() => setReveal(!reveal)}>
+						{reveal ? 'Hide' : 'Reveal'}
+					</button>
+					<button className="btn" onClick={clear}>
 						Clear
 					</button>
 				</div>
@@ -72,9 +98,10 @@ function App() {
 						<AudioSpectrum />
 					) : (
 						<>
-							<ImageView prompt={prompts[0]} />
-							<ImageView prompt={prompts[1]} />
-							<ImageView prompt={prompts[2]} />
+							{prompts.map((prompt, key) => {
+								const props = { ...prompt, reveal, key }
+								return <ImageView {...props} />
+							})}
 						</>
 					)}
 				</div>
