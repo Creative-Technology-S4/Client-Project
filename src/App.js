@@ -18,12 +18,14 @@ function App() {
 	const { transcript, listening, resetTranscript } = useSpeechRecognition()
 
 	const [prompts, setPrompts] = useState([])
+	const [input, setInput] = useState(null)
 	const [reveal, setReveal] = useState(false)
 
 	useEffect(() => {
 		// when the speech recognition lib is not listening anymore
 		// and theres is some input, generate new images
 		if (transcript && !listening) {
+			setInput(transcript)
 			generateImages(transcript).catch(console.error)
 		} else if (!transcript) {
 			setPrompts([])
@@ -92,7 +94,7 @@ function App() {
 				</div>
 			</div>
 			<div>
-				<div className="transcript">{transcript ?? 'No Prompt'}</div>
+				<div className="transcript">{input ?? 'No Prompt'}</div>
 				<div className="images">
 					{listening ? (
 						<AudioSpectrum />
