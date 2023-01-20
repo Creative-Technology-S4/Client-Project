@@ -30,21 +30,10 @@ const AudioSpectrum = () => {
 				const draw = radius => {
 					if (analyserCanvas.current) {
 						ctx.clearRect(0, 0, analyserCanvas.current.width, analyserCanvas.current.height)
-						ctx.strokeStyle = 'white'
-						ctx.fillStyle = 'white'
-
 						ctx.beginPath()
-						ctx.arc(210, 90, map(radius, 10, 50, 10, 30), 0, 2 * Math.PI)
-						ctx.fill()
-
-						ctx.beginPath()
-						ctx.lineWidth = 30
-						ctx.arc(150, 150, 45, 0, 2 * Math.PI)
-						ctx.stroke()
-
-						ctx.beginPath()
-						ctx.lineWidth = 15
-						ctx.arc(150, 250, 20, 0, 2 * Math.PI)
+						ctx.lineWidth = map(radius, 20, 50, 10, 50)
+						ctx.strokeStyle = 'white' //color of candle/bar
+						ctx.arc(100, 100, radius, 0, 2 * Math.PI)
 						ctx.stroke()
 					}
 				}
@@ -63,7 +52,7 @@ const AudioSpectrum = () => {
 		}
 	}
 
-	return <canvas ref={analyserCanvas} width="300" height="300" />
+	return <canvas className="centered" ref={analyserCanvas} width="200" height="200" />
 }
 
 export default AudioSpectrum

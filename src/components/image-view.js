@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { generateImage } from '../api'
 
-const ImageView = ({ text, color, reveal = false }) => {
+const ImageView = ({ prompt }) => {
 	const [image, setImage] = useState()
+	const [error, setError] = useState()
 
 	useEffect(() => {
-		if (text) {
-			generateImage(text)
-				.then(setImage)
-				.catch(() => generateImage('error stop sign').then(setImage))
-		} else {
-			setImage(null)
+		if (prompt) {
+			generateImage(prompt).then(setImage).catch(setError)
 		}
-	}, [text])
+	}, [prompt])
 
-	if (text) {
-		return (
-			<div
-				className="image-view"
-				style={{
-					borderColor: reveal ? color : 'transparent'
-				}}
-			>
-				{image ? <img className="image" src={image} /> : 'Processing...'}
-			</div>
-		)
+	if (error) {
+		return <div className="image-view error">{error.message ?? error}</div>
+	} else if (prompt) {
+		return <div className="image-view">{image ? <img src={image} /> : <p>Loading...</p>}</div>
 	}
-	return <div className="image-view inputs">No prompt</div>
+	return <div className="image-view">No prompt</div>
 }
 
 export default ImageView
